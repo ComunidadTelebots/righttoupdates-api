@@ -53,6 +53,7 @@ curl -fsS -X POST "${PB_URL}/api/collections" \
   -d '{
     "name": "supports",
     "type": "base",
+    "createRule": "",
     "fields": [
       { "name": "email",     "type": "email", "required": true },
       { "name": "country",   "type": "text"  },

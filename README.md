@@ -104,9 +104,12 @@ curl -s -X POST "$PB_URL/api/collections/supports/records" \
   -d '{"email":"persona@example.eu","country":"ES","locale":"es","confirmed":false}'
 ```
 
-> Por defecto, las reglas de acceso de la colección son restrictivas (solo admin).
-> Si quieres permitir altas públicas desde la web, ajusta la *create rule* de
-> `supports` en el panel `/_/` según tu política.
+> `init-collection.sh` crea la colección con **regla de creación pública**
+> (`createRule: ""`) para que el formulario de la web (`righttoupdates.eu`) pueda
+> dar de alta apoyos sin autenticación. El resto de reglas (listar, ver, editar,
+> borrar) quedan **privadas** (solo admin): el público puede crear pero no leer la
+> lista de apoyos. Ajusta esta política en el panel `/_/` si lo necesitas (p. ej.
+> añadir rate-limit o validaciones).
 
 ## Notas de seguridad
 
