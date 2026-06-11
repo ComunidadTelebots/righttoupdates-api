@@ -1,0 +1,14 @@
+*.bak
+*.bak2
+*.backup
+
+# Secretos y compose real con dominios
+.env
+.env.*
+!.env.example
+docker-compose.yml
+
+# Datos de PocketBase (nunca subir datos reales)
+pb_data/
+pocketbase
+*.zip

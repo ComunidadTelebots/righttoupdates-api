@@ -1,0 +1,37 @@
+# Plantilla de despliegue — copia este archivo como docker-compose.yml y ajusta dominios/red.
+# El archivo docker-compose.yml con los dominios reales NO se versiona (.gitignore).
+#
+#   cp docker-compose.example.yml docker-compose.yml
+#   cp .env.example .env   # y rellena las credenciales
+#   docker compose up -d --build
+
+services:
+  pocketbase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: righttoupdates-pocketbase
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Bind mount: la base de datos vive en ./pb_data del host (NO se versiona).
+      - ./pb_data:/pb/pb_data
+    # Puerto local opcional para administrar/seed antes de exponer por Traefik.
+    ports:
+      - "8090:8090"
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      # Dominio público del API de datos. Ajusta si usas otro.
+      - "traefik.http.routers.righttoupdates-data.rule=Host(`data.righttoupdates.eu`)"
+      - "traefik.http.routers.righttoupdates-data.entrypoints=websecure"
+      - "traefik.http.routers.righttoupdates-data.tls=true"
+      - "traefik.http.routers.righttoupdates-data.tls.certresolver=letsencrypt"
+      - "traefik.http.services.righttoupdates-data.loadbalancer.server.port=8090"
+
+networks:
+  traefik:
+    external: true
