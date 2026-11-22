@@ -1,0 +1,4 @@
+# La imagen instala PocketBase directamente y no copia archivos del host.
+**
+!Dockerfile
+!.dockerignore
