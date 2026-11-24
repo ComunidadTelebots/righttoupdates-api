@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.24
 
 # Versión de PocketBase fijada (ver .pocketbase-version)
 ARG POCKETBASE_VERSION=0.38.0
