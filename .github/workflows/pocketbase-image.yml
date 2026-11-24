@@ -1,0 +1,26 @@
+name: Imagen PocketBase
+on:
+  pull_request:
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - .pocketbase-version
+      - .github/workflows/pocketbase-image.yml
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Construir y probar con datos efímeros
+        run: |
+          docker build -t pocketbase-test .
+          expected=$(cat .pocketbase-version)
+          actual=$(docker run --rm pocketbase-test pocketbase --version)
+          test "${actual##* }" = "$expected"
+          docker run -d --name pb-test -p 127.0.0.1:18090:8090 pocketbase-test
+          trap 'docker rm -f pb-test' EXIT
+          curl --retry 15 --retry-all-errors --retry-delay 1 --fail --silent --show-error \
+            http://127.0.0.1:18090/api/health | jq -e '.status == 200 or .code == 200'

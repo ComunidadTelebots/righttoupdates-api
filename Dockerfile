@@ -1,7 +1,7 @@
-FROM alpine:3.20
+FROM alpine:3.24
 
 # Versión de PocketBase fijada (ver .pocketbase-version)
-ARG POCKETBASE_VERSION=0.38.0
+ARG POCKETBASE_VERSION=0.39.7
 
 RUN apk add --no-cache ca-certificates unzip wget \
     && wget -O /tmp/pocketbase.zip "https://github.com/pocketbase/pocketbase/releases/download/v${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_linux_amd64.zip" \
