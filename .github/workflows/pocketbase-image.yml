@@ -22,5 +22,5 @@ jobs:
           test "${actual##* }" = "$expected"
           docker run -d --name pb-test -p 127.0.0.1:18090:8090 pocketbase-test
           trap 'docker rm -f pb-test' EXIT
-          curl --retry 15 --retry-connrefused --retry-delay 1 --fail --silent --show-error \
+          curl --retry 15 --retry-all-errors --retry-delay 1 --fail --silent --show-error \
             http://127.0.0.1:18090/api/health | jq -e '.status == 200 or .code == 200'
