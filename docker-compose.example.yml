@@ -19,7 +19,7 @@ services:
       - ./pb_data:/pb/pb_data
     # Puerto local opcional para administrar/seed antes de exponer por Traefik.
     ports:
-      - "8090:8090"
+      - "127.0.0.1:8090:8090"
     networks:
       - traefik
     labels:
